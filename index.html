@@ -56,31 +56,58 @@
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <h1>Lester Developer</h1>
-    <img src="profile.jpg" alt="Lester's Photo">
-    <ul class="skills">
-      <li>HTML & CSS</li>
-      <li>JavaScript</li>
-      <li>ReactJS</li>
-      <li>PHP</li>
-      <li>WordPress</li>
-    </ul>
-  </div>
-  <div class="content">
-    <h2>Recent Projects</h2>
-    <div class="work">
-      <h3>Project 1: E-commerce Website</h3>
-      <p>Developed a fully responsive e-commerce website using ReactJS and Node.js.</p>
-    </div>
-    <div class="work">
-      <h3>Project 2: Portfolio Website</h3>
-      <p>Designed and implemented a personal portfolio with HTML, CSS, and JavaScript.</p>
-    </div>
-    <div class="work">
-      <h3>Project 3: Custom WordPress Theme</h3>
-      <p>Created a custom WordPress theme for a blog with advanced customizations.</p>
-    </div>
-  </div>
+  <div id="root"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
+  <script>
+    const { useState } = React;
+
+    const Sidebar = () => (
+      <div className="sidebar">
+        <h1>Lester Developer</h1>
+        <img src="profile.jpg" alt="Lester's Photo" />
+        <ul className="skills">
+          <li>HTML & CSS</li>
+          <li>JavaScript</li>
+          <li>ReactJS</li>
+          <li>PHP</li>
+          <li>WordPress</li>
+        </ul>
+      </div>
+    );
+
+    const Project = ({ title, description }) => (
+      <div className="work">
+        <h3>{title}</h3>
+        <p>{description}</p>
+      </div>
+    );
+
+    const Content = () => {
+      const projects = [
+        { title: "Project 1: E-commerce Website", description: "Developed a fully responsive e-commerce website using ReactJS and Node.js." },
+        { title: "Project 2: Portfolio Website", description: "Designed and implemented a personal portfolio with HTML, CSS, and JavaScript." },
+        { title: "Project 3: Custom WordPress Theme", description: "Created a custom WordPress theme for a blog with advanced customizations." },
+      ];
+
+      return (
+        <div className="content">
+          <h2>Recent Projects</h2>
+          {projects.map((project, index) => (
+            <Project key={index} title={project.title} description={project.description} />
+          ))}
+        </div>
+      );
+    };
+
+    const App = () => (
+      <div style={{ display: "flex" }}>
+        <Sidebar />
+        <Content />
+      </div>
+    );
+
+    ReactDOM.render(<App />, document.getElementById("root"));
+  </script>
 </body>
 </html>
