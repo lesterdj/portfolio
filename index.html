@@ -9,6 +9,7 @@
       margin: 0;
       font-family: Arial, sans-serif;
       display: flex;
+      flex-wrap: wrap;
       height: 100vh;
     }
     .sidebar {
@@ -53,61 +54,126 @@
     .work p {
       margin: 0;
     }
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      .sidebar{
+        width: 100%;
+      }
+	  .content{
+        width: 100%;
+      }
+      .content h2 {
+        text-align: center;
+      }
+	  body{ width: 100% !important; }
+    }
+	
+	 .work img {
+      cursor: pointer;
+    }
+    .work img:hover {
+      filter: brightness(70%);
+    }
+
+    /* Popup styles */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .popup-overlay img {
+      max-width: 90%;
+      max-height: 90%;
+      box-shadow: 0 0 10px white;
+    }
+    .popup-overlay.active {
+      display: flex;
+    }
+    .popup-overlay .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: white;
+      font-size: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1001;
+    }
   </style>
 </head>
 <body>
-  <div id="root"></div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
+  <div class="sidebar">
+    <h1>Marco Masina Developer</h1>
+    <img src="img/profile1.jpg" alt="Lester's Photo" />
+    <ul class="skills">
+      <li>HTML & CSS</li>
+      <li>JavaScript - jQuery</li>
+      <li>PHP</li>
+      <li>WordPress</li>
+    </ul>
+  </div>
+  <div class="content">
+    <h2>Recent Projects</h2>
+    <div class="work">
+      <h3>Project 1: E-commerce Website</h3>
+      <p>Developed a fully responsive e-commerce website using ReactJS and Node.js.</p>
+	  <img src="img/portfolio1_1.png" alt="portfolio" style="max-width:500px;" />
+	  <img src="img/portfolio1_2.png" alt="portfolio" style="max-width:500px;" />
+	  <img src="img/portfolio1_3.png" alt="portfolio" style="max-width:500px;" />
+	  <img src="img/portfolio1_4.png" alt="portfolio" style="max-width:500px;" />
+    </div>
+    <div class="work">
+      <h3>Project 2: E-commerce Website</h3>
+      <p>Developed a fully responsive e-commerce website using ReactJS and Node.js.</p>
+	  <img src="img/portfolio2_1.png" alt="portfolio" style="max-width:500px;" />
+	  <img src="img/portfolio2_2.png" alt="portfolio" style="max-width:500px;" />
+	  <img src="img/portfolio2_3.png" alt="portfolio" style="max-width:500px;" />
+	  <img src="img/portfolio2_4.png" alt="portfolio" style="max-width:500px;" />
+    </div>
+    <div class="work">
+      <h3>Project 3: Custom WordPress Theme</h3>
+      <p>Created a custom WordPress theme for a blog with advanced customizations.</p>
+    </div>
+  </div>
+  
+  <!-- Popup HTML -->
+  <div class="popup-overlay" id="popup">
+    <span class="close-btn" id="closePopup">&times;</span>
+    <img id="popupImage" src="" alt="popup">
+  </div>
+
   <script>
-    const { useState } = React;
+    // JavaScript for popup functionality
+    const images = document.querySelectorAll('.work img');
+    const popup = document.getElementById('popup');
+    const popupImage = document.getElementById('popupImage');
+    const closePopup = document.getElementById('closePopup');
 
-    const Sidebar = () => (
-      <div className="sidebar">
-        <h1>Lester Developer</h1>
-        <img src="profile1.jpg" alt="Lester's Photo" />
-        <ul className="skills">
-          <li>HTML & CSS</li>
-          <li>JavaScript</li>
-          <li>ReactJS</li>
-          <li>PHP</li>
-          <li>WordPress</li>
-        </ul>
-      </div>
-    );
+    images.forEach(image => {
+      image.addEventListener('click', () => {
+        popupImage.src = image.src;
+        popup.classList.add('active');
+      });
+    });
 
-    const Project = ({ title, description }) => (
-      <div className="work">
-        <h3>{title}</h3>
-        <p>{description}</p>
-      </div>
-    );
+    closePopup.addEventListener('click', () => {
+      popup.classList.remove('active');
+    });
 
-    const Content = () => {
-      const projects = [
-        { title: "Project 1: E-commerce Website", description: "Developed a fully responsive e-commerce website using ReactJS and Node.js." },
-        { title: "Project 2: Portfolio Website", description: "Designed and implemented a personal portfolio with HTML, CSS, and JavaScript." },
-        { title: "Project 3: Custom WordPress Theme", description: "Created a custom WordPress theme for a blog with advanced customizations." },
-      ];
-
-      return (
-        <div className="content">
-          <h2>Recent Projects</h2>
-          {projects.map((project, index) => (
-            <Project key={index} title={project.title} description={project.description} />
-          ))}
-        </div>
-      );
-    };
-
-    const App = () => (
-      <div style={{ display: "flex" }}>
-        <Sidebar />
-        <Content />
-      </div>
-    );
-
-    ReactDOM.render(<App />, document.getElementById("root"));
+    // Close popup on clicking outside the image
+    popup.addEventListener('click', (e) => {
+      if (e.target === popup) {
+        popup.classList.remove('active');
+      }
+    });
   </script>
+  
 </body>
 </html>
